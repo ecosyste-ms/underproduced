@@ -1,0 +1,10 @@
+<div class="container-sm">
+  <h1>
+    <%= @registry.name %>
+    <small class='text-muted'>
+      <%= number_with_delimiter @packages.length %> packages
+    </small>
+  </h1>
+
+  <%= render @packages %>
+</div>

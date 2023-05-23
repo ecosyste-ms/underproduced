@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  registry_id: 1
+  metadata: 
+  issue_data: 
+  last_synced_at: 2023-05-23 14:37:57
+
+two:
+  registry_id: 1
+  metadata: 
+  issue_data: 
+  last_synced_at: 2023-05-23 14:37:57
