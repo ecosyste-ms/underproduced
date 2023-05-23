@@ -1,6 +1,6 @@
 module ApplicationHelper
   def meta_title
-    [@meta_title, 'Ecosyste.ms: Advisories'].compact.join(' | ')
+    [@meta_title, 'Ecosyste.ms: Underproduced'].compact.join(' | ')
   end
 
   def meta_description
