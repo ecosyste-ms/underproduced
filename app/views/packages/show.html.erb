@@ -1,0 +1,44 @@
+<div class="container-sm">
+  <h1>
+    <%= link_to @registry.name, @registry %> - <%= @package.name %>  
+  </h1>
+
+  <p>
+    <%= @package.description_with_fallback %>
+  </p>
+
+  <p>
+    <%= link_to 'View on packages service', @package.packages_url, target: :_blank %><br/>
+    <%= link_to "View on #{@registry}", @package.html_url, target: :_blank %>
+  </p>
+
+  <% if @package.repo_metadata.present? %>
+    <p>
+      <%= link_to "View on repos service", @package.repos_url, target: :_blank %><br/>
+      <%= link_to "View repository on #{@package.repo_metadata['host']['name']}", @package.repo_metadata['html_url'], target: :_blank %><br/>
+      <% if @package.issue_data %>
+        <%= link_to "View on issues service", @package.issues_url, target: :_blank %><br/>
+      <% else %>
+        No issues data available yet.
+      <% end %>
+    </p>
+  <% else %>
+    <p>
+      No repository synced yet. 
+    </p>
+  <% end %>
+
+  <% if @package.production %>
+  <p>
+  Issues opened: <%= number_with_delimiter @package.issue_data['issues_count'] %><br/>
+  Issues closed: <%= number_with_delimiter @package.issue_data['issues_closed_count'] %><br/>
+  Avg time to close: <%= distance_of_time_in_words_if_present @package.quality %> <br/>
+  Downloads: <%= number_with_delimiter @package.metadata['downloads'] %> <br/>
+  Dependent Repos: <%= number_with_delimiter @package.metadata['dependent_repos_count'] %> <br/><br/>
+
+  Usage: <%= @package.usage_rank.to_i %> / <%= @registry.packages.with_production.count %> <br/>
+  Quality: <%= @package.quality_rank.to_i %> / <%= @registry.packages.with_production.count %> <br/>
+  Production: <%= @package.production.round(2) %><br/>
+  </p>
+  <% end %>
+</div>

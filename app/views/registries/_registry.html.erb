@@ -8,7 +8,13 @@
         </h5>
       
         <p class="card-subtitle mb-2 text-muted">
-          <%= number_with_delimiter registry.packages_count %> packages
+          <%= number_with_delimiter registry.packages_count %> total packages<br/>
+          <%= number_with_delimiter registry.metadata['packages_count'] %> usable packages<br/>
+          <%= number_with_delimiter registry.metadata['packages_with_downloads_count'] %> packages_with_downloads<br/>
+          <%= number_with_delimiter registry.metadata['packages_with_dependent_repos_count'] %> packages_with_dependent_repos<br/>
+          <%= number_with_delimiter registry.metadata['packages_with_issues_closed_count'] %> packages_with_issues_closed<br/>
+          <%= number_with_delimiter registry.metadata['packages_with_issues_count'] %> packages_with_issues<br/>
+
         </p>
       </div>
       <div class="flex-shrink-0">

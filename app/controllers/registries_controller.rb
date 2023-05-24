@@ -1,6 +1,6 @@
 class RegistriesController < ApplicationController
   def index
-    @registries = Registry.all
+    @registries = Registry.all.select{|r| r.metadata['packages_count'] > 0}.sort_by{|r| r.metadata['packages_count'] }
   end
 
   def show

@@ -2,6 +2,28 @@ class Registry < ApplicationRecord
 
   has_many :packages
 
+  def update_counts
+    metadata['packages_count'] = packages.with_production.count
+    metadata['packages_with_downloads_count'] = packages.with_downloads.count
+    metadata['packages_with_dependent_repos_count'] = packages.with_dependent_repos_count.count
+    metadata['packages_with_issues_closed_count'] = packages.with_issues_closed_count.count
+    metadata['packages_with_issues_count'] = packages.with_issues_count.count
+    save
+  end
+
+  def update_package_fields
+    packages.find_each do |p|
+      p.update({
+        dependent_repos_count: p.metadata['dependent_repos_count'],
+        downloads: p.metadata['downloads'],
+        avg_time_to_close_issue: p.issue_data.try(:[], 'avg_time_to_close_issue'),
+        issues_closed_count: p.issue_data.try(:[], 'issues_closed_count'),
+        issues_count: p.issue_data.try(:[], 'issues_count'),
+      })
+    end
+    update_counts
+  end
+
   def to_param
     name
   end
@@ -90,7 +112,9 @@ class Registry < ApplicationRecord
       json.each do |package|
         Package.find_or_create_by(registry_id: id, name: package['name']).tap do |p|
           p.metadata = package
-          p.save
+          p.downloads = package['downloads']
+          p.dependent_repos_count = package['dependent_repos_count']
+          p.sync_issues_async if p.save
         end
       end
     
